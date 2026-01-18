@@ -2308,7 +2308,7 @@ const level2Words = [
 {"word": "summon", "meaning": "召喚する", "page": 23},
 {"word": "acquire", "meaning": "を身につける", "page": 23},
 {"word": "pedestrian", "meaning": "歩行者", "page": 23},
-{"word": "restrain", "meaning": "抑える", "page": 23}
+{"word": "restrain", "meaning": "抑える", "page": 23},
 ];
 const level1_lowWords = [
 ];
