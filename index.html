@@ -730,6 +730,13 @@ td.peek-cell {
 <label for="wordlist-level-select">難易度:</label>
 <select class="level-select" id="wordlist-level-select">
 <option value="level5">英検5級</option>
+<option value="level4">英検4級</option>
+<option value="level3">英検3級</option>
+<option value="level2_low">英検準2級</option>
+<option value="level2_low2">英検準2級＋</option>
+<option value="level2">英検2級</option>
+<option value="level1_low">英検準1級</option>
+<option value="level1">英検1級</option>
 </select>
 </div>
 <div class="form-group">
@@ -748,6 +755,13 @@ td.peek-cell {
 <label for="quiz-level-select">難易度:</label>
 <select class="level-select" id="quiz-level-select">
 <option value="level5">英検5級</option>
+<option value="level4">英検4級</option>
+<option value="level3">英検3級</option>
+<option value="level2_low">英検準2級</option>
+<option value="level2_low2">英検準2級＋</option>
+<option value="level2">英検2級</option>
+<option value="level1_low">英検準1級</option>
+<option value="level1">英検1級</option>
 </select>
 </div>
 <div class="form-group">
@@ -908,6 +922,13 @@ let selectedList = []; // ← 初期選択は後でDOM読み込み後に決め�
 // 単語配列マップ（存在する配列名に合わせてここだけ整備）
 const WORD_MAP = {
   level5:      level5Words,
+  level4:      level4Words,
+  level3:      level3Words,
+  level2_low:      level2_lowWords,
+  level2_low2:      level2_low2Words,
+  level2:      level2Words,
+  level1_low:      level1_lowWords,
+  level1:      level1Words,
 };
 
 // 出題用：現在の selectedList から範囲抽出

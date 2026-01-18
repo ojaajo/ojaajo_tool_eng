@@ -439,13 +439,17 @@ const level5Words = [
 {"word": "help with", "meaning": "を助ける", "page": 6},
 {"word": "bike", "meaning": "自転車", "page": 6}
 ];
-const intermediateWords = [
+const level4Words = [
 ];
-const advancedWords = [
+const level3Words = [
 ];
-const Level4ofkoreanschool = [
+const level2_lowWords = [
 ];
-const Level5ofkoreanschool = [
+const level2_low2Words = [
 ];
-const expressionUpWords = [
+const level2Words = [
+];
+const level1_lowWords = [
+];
+const level1Words = [
 ];
