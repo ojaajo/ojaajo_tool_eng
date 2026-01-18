@@ -902,15 +902,16 @@ td.peek-cell {
 <div class="hidden" id="toast"></div><div class="hidden" id="json-output" style="margin-top:20px;"><p>🔒 進捗データを下からコピーして、メモ帳やiCloud Driveに貼り付けて保存してください。</p><textarea id="json-text" readonly="" rows="10" style="width:100%; font-family: monospace; font-size:14px;"></textarea><button onclick="copyToClipboard()" style="margin-top: 10px;">コピーする</button></div>
 
 <script src="words.js"></script>
+<!-- 開発中は Service Worker を無効化 -->
+<!--
 <script>
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
-    navigator.serviceWorker.register('./service-worker.js').then(() => {
-      console.log("Service Worker registered");
-    });
+    navigator.serviceWorker.register('./service-worker.js');
   });
 }
 </script>
+-->
 
 <script src="https://cdn.jsdelivr.net/npm/eruda"></script>
 <script>eruda.init();</script>
