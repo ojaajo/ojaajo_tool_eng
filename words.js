@@ -1,4 +1,4 @@
-const beginnerWords = [
+const level5Words = [
 {"word": "one", "meaning": "一つの", "page": 1},
 {"word": "the", "meaning": "その", "page": 1},
 {"word": "you", "meaning": "あなたは", "page": 1},
