@@ -10915,4 +10915,5 @@ const level1_lowWords = [
 {"word": "foundation", "meaning": "土台，根拠，設立", "page": 34},
 {"word": "vibrant", "meaning": "活気のある", "page": 34}
 ];
-const level1Words = [];
+const level1Words = [
+];
