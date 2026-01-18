@@ -1355,7 +1355,7 @@ function playWord(word) {
         currentAudio = null;
     }
 
-  const url = `https://ojaajo-sound_eng.vercel.app/api/tts?text=${encodeURIComponent(word)}`;
+  const url = `https://ojaajo-sound.vercel.app/api/tts?text=${encodeURIComponent(word)}`;
   const audio = new Audio(url);
 
 	  audio.play().then(() => {
