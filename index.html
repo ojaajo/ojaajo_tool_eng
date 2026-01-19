@@ -4,7 +4,7 @@
 <head><link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP&amp;display=swap" rel="stylesheet"/>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>英単語暗記ツール</title>
+<title>韓国語単語暗記ツール</title>
 <style>body, header, h1, h2, h3, label, select, button {
   font-family: 'Noto Sans JP', sans-serif;
 }
@@ -721,7 +721,7 @@ td.peek-cell {
 </head>
 <body>
 <header>
-<h1>英単語暗記ツール</h1>
+<h1>韓国語単語暗記ツール</h1>
 </header>
 <div class="container">
 <!-- 出題範囲選択 -->
@@ -729,14 +729,12 @@ td.peek-cell {
 <div class="form-group">
 <label for="wordlist-level-select">難易度:</label>
 <select class="level-select" id="wordlist-level-select">
-<option value="level5">英検5級</option>
-<option value="level4">英検4級</option>
-<option value="level3">英検3級</option>
-<option value="level2_low">英検準2級</option>
-<option value="level2_low2">英検準2級＋</option>
-<option value="level2">英検2級</option>
-<option value="level1_low">英検準1級</option>
-<option value="level1">英検1級</option>
+<option value="beginner">初級</option>
+<option value="intermediate">中級</option>
+<option value="advanced">上級</option>
+<option value="expressionup">表現力UP</option>
+<option value="Level4">語学堂4級単語</option>
+<option value="Level5">語学堂5級単語</option>
 </select>
 </div>
 <div class="form-group">
@@ -754,14 +752,12 @@ td.peek-cell {
 <div class="form-group">
 <label for="quiz-level-select">難易度:</label>
 <select class="level-select" id="quiz-level-select">
-<option value="level5">英検5級</option>
-<option value="level4">英検4級</option>
-<option value="level3">英検3級</option>
-<option value="level2_low">英検準2級</option>
-<option value="level2_low2">英検準2級＋</option>
-<option value="level2">英検2級</option>
-<option value="level1_low">英検準1級</option>
-<option value="level1">英検1級</option>
+<option value="beginner">初級</option>
+<option value="intermediate">中級</option>
+<option value="advanced">上級</option>
+<option value="expressionup">表現力UP</option>
+<option value="Level4">語学堂4級単語</option>
+<option value="Level5">語学堂5級単語</option>
 </select>
 </div>
 <div class="form-group">
@@ -901,22 +897,19 @@ td.peek-cell {
 </div>
 <div class="hidden" id="toast"></div><div class="hidden" id="json-output" style="margin-top:20px;"><p>🔒 進捗データを下からコピーして、メモ帳やiCloud Driveに貼り付けて保存してください。</p><textarea id="json-text" readonly="" rows="10" style="width:100%; font-family: monospace; font-size:14px;"></textarea><button onclick="copyToClipboard()" style="margin-top: 10px;">コピーする</button></div>
 
-<!-- 開発中は Service Worker を無効化 -->
-<!--
 <script>
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
-    navigator.serviceWorker.register('./service-worker.js');
+    navigator.serviceWorker.register('./service-worker.js').then(() => {
+      console.log("Service Worker registered");
+    });
   });
 }
 </script>
--->
 
-<script src="https://cdn.jsdelivr.net/npm/eruda"></script>
-<script>eruda.init();</script>
-<script src="words.js"></script>
 <link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#4CAF50">
+<script src="words.js"></script>
 <script>
 // ---------------------- 基本状態 ----------------------
 let completed = false;
@@ -924,14 +917,12 @@ let selectedList = []; // ← 初期選択は後でDOM読み込み後に決め�
 
 // 単語配列マップ（存在する配列名に合わせてここだけ整備）
 const WORD_MAP = {
-  level5:      level5Words,
-  level4:      level4Words,
-  level3:      level3Words,
-  level2_low:      level2_lowWords,
-  level2_low2:      level2_low2Words,
-  level2:      level2Words,
-  level1_low:      level1_lowWords,
-  level1:      level1Words,
+  beginner:      beginnerWords,
+  intermediate:  intermediateWords,
+  advanced:      advancedWords,
+  expressionup:  expressionUpWords,
+  Level4:        Level4ofkoreanschool,
+  Level5:        Level5ofkoreanschool,
 };
 
 // 出題用：現在の selectedList から範囲抽出
@@ -1070,6 +1061,12 @@ document.addEventListener('DOMContentLoaded', () => {
   // 初期 selectedList（単語一覧の方のレベルに合わせる）
   if (wlLevel) setWordList(wlLevel.value);
 });
+
+
+        // 出題範囲に基づく単語リストを取得
+function getWordsInRange(start, end, onlyIncorrect) {
+    return selectedList.filter(word => word.page >= start && word.page <= end && (!onlyIncorrect || word.status === "未暗記"));
+}
 
 // クイズ進行状態のフラグを追加
 let isQuizInProgress = false;
@@ -1373,7 +1370,7 @@ function playWord(word) {
         currentAudio = null;
     }
 
-  const url = `https://ojaajo-sound-eng.vercel.app/api/tts?text=${encodeURIComponent(word)}`;
+  const url = `https://ojaajo-sound.vercel.app/api/tts?text=${encodeURIComponent(word)}`;
   const audio = new Audio(url);
 
 	  audio.play().then(() => {
@@ -1576,6 +1573,7 @@ function showSelectedWordList() {
 
     showWordList(filteredWords, level);
     
+    rebuildHiddenChips();                 // ← チップを再生成
     requestAnimationFrame(updateWordSummary); // ← 集計も更新
 }
 // ✅ 開始を変えたら終了も同じページに自動同期（右を左に揃える）
